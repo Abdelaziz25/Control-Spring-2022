@@ -1,11 +1,9 @@
 import {Component, HostListener, OnInit} from '@angular/core';
 import {
   faFileUpload,
-  faRedoAlt,
   faMousePointer,
   faPlay,
   faCogs,
-  faListOl,
   faLink
 } from '@fortawesome/free-solid-svg-icons';
 import Konva from "konva";
@@ -24,17 +22,13 @@ export class SignalFlowDiagramComponent implements OnInit {
   SelectorTools: SelectorTools = new SelectorTools();
   Update: Update = new Update();
   DefaultDirector: DefaultDirector = new DefaultDirector();
-  input: number = 0;
-  productsNum: number = 0;
   order: number = 0;
   products: any = [];
 
   faPlay = faPlay;
   faLink = faLink;
   faCogs = faCogs;
-  faListOl = faListOl;
   faUpload = faFileUpload;
-  faRedoAlt = faRedoAlt;
   faMousePointer = faMousePointer;
 
   stage!: Konva.Stage;
@@ -42,8 +36,6 @@ export class SignalFlowDiagramComponent implements OnInit {
   tr!: Konva.Transformer;
 
   machineTargets: any = new Map<string, any>();
-  queueTargets: any = new Map<string, any>();
-  queues: any = new Map<string, any>();
   machines: any = new Map<string, any>();
   connectors: any = new Map<string, any>();
 
@@ -85,10 +77,6 @@ export class SignalFlowDiagramComponent implements OnInit {
     this.layer.add(this.tr);
   }
 
-  updateInput() {
-    this.productsNum = this.input;
-  }
-
   generateTargets(shape: Konva.Group, name: string, ID: number, targets: Map<string, any>) {
     targets.set(
       name + '_' + (ID + 1),
@@ -109,17 +97,14 @@ export class SignalFlowDiagramComponent implements OnInit {
   }
 
   updateObjects() {
-    this.Update.updateObjects(this.layer, this.machineTargets, this.queueTargets, this.connectors);
+    this.Update.updateObjects(this.layer, this.machineTargets, this.connectors);
   }
 
   delete() {
     let selectedShapes = this.tr.nodes();
     for (let selectedShape of selectedShapes) {
       if (selectedShape.id() == "queue_0" || selectedShape.id() == "queue_-1") return;
-      if (this.queues.has(selectedShape.id())) {
-        this.queues.delete(selectedShape.id());
-        this.queueTargets.delete(selectedShape.id());
-      } else if (this.machines.has(selectedShape.id())) {
+      if (this.machines.has(selectedShape.id())) {
         this.machines.delete(selectedShape.id());
         this.machineTargets.delete(selectedShape.id());
       } else if (this.connectors.has(selectedShape.id())) {
@@ -135,7 +120,6 @@ export class SignalFlowDiagramComponent implements OnInit {
       let selectedShapes = this.tr.nodes();
       for (let selectedShape of selectedShapes) {
         if (this.machineTargets.has(selectedShape.id())) this.SelectorTools.iterate(this.machineTargets, selectedShape);
-        if (this.queueTargets.has(selectedShape.id())) this.SelectorTools.iterate(this.queueTargets, selectedShape);
       }
       this.updateObjects();
     });
@@ -172,13 +156,13 @@ export class SignalFlowDiagramComponent implements OnInit {
     machine.add(konvaShape);
 
     machine.add(new Konva.Text({
-      text: "M" + (this.machineID + 1) + "\n" + "Available",
+      text: "Y" + (this.machineID + 1),
       fontSize: 18,
       fontFamily: 'Calibri',
       fontStyle: 'bold',
       fill: '#fff',
-      offsetX: 33,
-      offsetY: 20,
+      offsetX: 10,
+      offsetY: 10,
       align: 'center'
     }));
 

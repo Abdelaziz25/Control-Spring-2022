@@ -7,7 +7,7 @@ export class CircleBuilder implements Builder {
   Shape: any;
 
   constructor(Stroke = "black", StrokeWidth = 0, FillColor = "#efa610",
-              Alpha = 1, RotateAngle = 0, Radius = 50) {
+              Alpha = 1, RotateAngle = 0, Radius = 20) {
     this.BuildKonva(Stroke, StrokeWidth, FillColor, Alpha, RotateAngle, Radius);
     this.BuildShape()
   }
