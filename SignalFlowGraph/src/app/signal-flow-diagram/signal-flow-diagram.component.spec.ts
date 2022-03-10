@@ -1,20 +1,20 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {ProducerConsumerDiagramComponent} from './producer-consumer-diagram.component';
+import {SignalFlowDiagramComponent} from './signal-flow-diagram.component';
 
 describe('ProducerConsumerDiagramComponent', () => {
-  let component: ProducerConsumerDiagramComponent;
-  let fixture: ComponentFixture<ProducerConsumerDiagramComponent>;
+  let component: SignalFlowDiagramComponent;
+  let fixture: ComponentFixture<SignalFlowDiagramComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ProducerConsumerDiagramComponent]
+      declarations: [SignalFlowDiagramComponent]
     })
       .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ProducerConsumerDiagramComponent);
+    fixture = TestBed.createComponent(SignalFlowDiagramComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

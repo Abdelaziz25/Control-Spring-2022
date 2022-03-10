@@ -17,10 +17,10 @@ import {Update} from "./Update";
 
 @Component({
   selector: 'app-producer-consumer-diagram',
-  templateUrl: './producer-consumer-diagram.component.html',
-  styleUrls: ['./producer-consumer-diagram.component.css']
+  templateUrl: './signal-flow-diagram.component.html',
+  styleUrls: ['./signal-flow-diagram.component.css']
 })
-export class ProducerConsumerDiagramComponent implements OnInit {
+export class SignalFlowDiagramComponent implements OnInit {
   SelectorTools: SelectorTools = new SelectorTools();
   Update: Update = new Update();
   DefaultDirector: DefaultDirector = new DefaultDirector();
