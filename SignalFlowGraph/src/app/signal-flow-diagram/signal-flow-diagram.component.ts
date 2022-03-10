@@ -16,7 +16,7 @@ import {SelectorTools} from "./SelectorTools";
 import {Update} from "./Update";
 
 @Component({
-  selector: 'app-producer-consumer-diagram',
+  selector: 'app-signal-flow-diagram',
   templateUrl: './signal-flow-diagram.component.html',
   styleUrls: ['./signal-flow-diagram.component.css']
 })
