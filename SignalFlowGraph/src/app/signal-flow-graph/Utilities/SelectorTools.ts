@@ -49,7 +49,7 @@ export class SelectorTools {
       }
 
       // do nothing if clicked NOT on our rectangles
-      if (!e.target.parent!.hasName('machine') && !e.target.parent!.hasName('queue')) {
+      if (!e.target.parent!.hasName('node')) {
         return;
       }
 
@@ -116,10 +116,7 @@ export class SelectorTools {
       });
 
       let shapes = [];
-      for (let findElement of stage.find(".machine")) {
-        shapes.push(findElement);
-      }
-      for (let findElement of stage.find(".queue")) {
+      for (let findElement of stage.find(".node")) {
         shapes.push(findElement);
       }
       let selectionArea = this.selectionShape.getClientRect();

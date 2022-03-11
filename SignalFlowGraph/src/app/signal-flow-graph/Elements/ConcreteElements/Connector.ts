@@ -2,12 +2,14 @@ export class Connector {
   private _id: string;
   private _from: string;
   private _to: string;
+  private _weight: string;
   private _points: number[];
 
-  constructor(id: string, from: string, to: string, points: number[]) {
+  constructor(id: string, from: string, to: string, weight: string, points: number[]) {
     this._id = id;
     this._from = from;
     this._to = to;
+    this._weight = weight;
     this._points = points;
   }
 
@@ -33,6 +35,14 @@ export class Connector {
 
   set to(value: string) {
     this._to = value;
+  }
+
+  get weight(): string {
+    return this._weight;
+  }
+
+  set weight(value: string) {
+    this._weight = value;
   }
 
   get points(): number[] {

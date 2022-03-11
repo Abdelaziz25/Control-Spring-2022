@@ -4,8 +4,4 @@ export abstract class ShapeDirector {
   public GetKonva() {
     return this.smallBuilder.GetKonva();
   }
-
-  public GetShape() {
-    return this.smallBuilder.GetShape();
-  }
 }

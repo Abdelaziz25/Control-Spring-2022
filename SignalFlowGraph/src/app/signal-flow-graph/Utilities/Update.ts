@@ -9,7 +9,9 @@ export class Update {
     });
 
     connectors.forEach((connector: any) => {
-      let line = <Konva.Arrow>layer.findOne('#' + connector.id);
+      let line = <Konva.Group>layer.findOne('#' + connector.id);
+      let arrow = <Konva.Arrow>line.children![0];
+      let text = <Konva.Text>line.children![1];
       let fromNode = <Konva.Group>layer.findOne('#' + connector.from);
       let toNode = <Konva.Group>layer.findOne('#' + connector.to);
 
@@ -17,8 +19,12 @@ export class Update {
         fromNode,
         toNode,
       );
-      if (line != null)
-        line.points(points);
+      if (arrow != null)
+        arrow.points(points);
+      if (text != null) {
+        text.x(arrow!.getSelfRect().x + arrow!.width() / 2);
+        text.y(arrow!.getSelfRect().y + arrow!.height() / 2);
+      }
     });
   }
 
