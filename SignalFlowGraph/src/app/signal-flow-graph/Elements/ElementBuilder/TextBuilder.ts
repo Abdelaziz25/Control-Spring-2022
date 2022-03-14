@@ -9,6 +9,7 @@ export class TextBuilder {
     };
 
     let text = document.createElement("input");
+    text.id = "input";
     text.style.position = 'absolute';
     text.style.top = areaPosition.y + 'px';
     text.style.left = areaPosition.x + 'px';
@@ -23,37 +24,40 @@ export class TextBuilder {
   }
 
   read(tr: Konva.Transformer, arrowGroup: Konva.Group, connectors: Map<string, Connector>) {
-    tr.nodes([arrowGroup]);
     let textBox = this.buildText(tr);
+    tr.nodes([arrowGroup]);
 
     textBox.addEventListener('keypress', (ev => {
-      let enter = true;
-      let arrow = <Konva.Arrow>arrowGroup.children![0];
-      tr.nodes([arrowGroup]);
-
-      if (ev.key !== 'Enter' || !enter)
+      if (ev.key !== 'Enter')
         return;
 
-      let textX = tr.x() + arrow.width() / 2;
-      let textY = tr.y() + arrow.height() / 2;
-
-      if (arrow.points().length == 6)
-        textY -= (arrow.points()[3] / 2);
-
-      textBox.style.visibility = 'hidden';
-      let arrowText = new Konva.Text({
-        text: textBox.value,
-        fontSize: 18,
-        fontFamily: 'Calibri',
-        fontStyle: 'bold',
-        x: textX,
-        y: textY,
-        fill: '#fff',
-        align: 'center'
-      });
-
-      arrowGroup.add(arrowText);
-      connectors.get(arrowGroup.id())!.weight = arrowText.text();
+      this.constructText(tr, arrowGroup, textBox, connectors);
+      textBox.remove();
     }));
+  }
+
+  constructText(tr: Konva.Transformer, arrowGroup: Konva.Group,
+                textBox: HTMLInputElement, connectors: Map<string, Connector>) {
+    let arrow = <Konva.Arrow>arrowGroup.children![0];
+    let textX = tr.x() + arrow.width() / 2;
+    let textY = tr.y() + arrow.height() / 2;
+
+    if (arrow.points().length == 6)
+      textY -= (arrow.points()[3] / 2);
+
+    textBox.style.visibility = 'hidden';
+    let arrowText = new Konva.Text({
+      text: textBox.value,
+      fontSize: 18,
+      fontFamily: 'Calibri',
+      fontStyle: 'bold',
+      x: textX,
+      y: textY,
+      fill: '#fff',
+      align: 'center'
+    });
+
+    arrowGroup.add(arrowText);
+    connectors.get(arrowGroup.id())!.weight = arrowText.text();
   }
 }

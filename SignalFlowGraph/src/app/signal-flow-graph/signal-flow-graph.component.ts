@@ -101,15 +101,21 @@ export class SignalFlowGraphComponent implements OnInit {
       return;
 
     let connector = <Konva.Group>this.tr.nodes()[0];
+    console.log(this.connectors.get(connector.id()));
 
     if (this.tr.nodes()[0].name() == 'connector' && key == '')
-      this.input = this.connectors.get(connector.id()).weight;
+      this.input = (this.connectors.get(connector.id()).weight != "") ?
+        this.connectors.get(connector.id()).weight : "1";
 
     else if (this.tr.nodes()[0].name() == 'connector') {
       let connectorGroup = <Konva.Group>this.stage.find("#" + connector.id())[0];
       this.connectors.get(connector.id()).weight = this.input;
       let text = <Konva.Text>connectorGroup.children![1];
-      text.text(this.input);
+
+      if (this.input != "1")
+        text.text(this.input);
+      else
+        text.text("");
     }
   }
 
@@ -133,6 +139,17 @@ export class SignalFlowGraphComponent implements OnInit {
   }
 
   SelectorType() {
+    this.stage.on("click", () => {
+      if (document.getElementById("input") == null)
+        return;
+
+      let arrowGroup = <Konva.Group>this.tr.nodes()[0];
+      let textBox = <HTMLInputElement>document.getElementById("input");
+      this.TextBuilder.constructText(this.tr, arrowGroup, textBox, this.connectors);
+
+      textBox!.remove();
+    });
+
     this.stage.on("dragend", () => {
       let selectedShapes = this.tr.nodes();
       for (let selectedShape of selectedShapes) {
@@ -140,6 +157,7 @@ export class SignalFlowGraphComponent implements OnInit {
       }
       this.updateObjects();
     });
+
     this.SelectorTools.boxSelect(this.stage, this.tr, this.layer);
     this.SelectorTools.clickSelect(this.stage, this.tr);
     this.updateGain();

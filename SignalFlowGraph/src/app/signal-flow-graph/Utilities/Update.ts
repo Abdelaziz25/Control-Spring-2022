@@ -49,7 +49,7 @@ export class Update {
       from.x() + -radius * Math.cos(angle + Math.PI),
       from.y() + radius * Math.sin(angle + Math.PI),
       (from.x() + -radius * Math.cos(angle + Math.PI) + to.x() + -radius * Math.cos(angle)) / 2,
-      ((from.y() + radius * Math.sin(angle + Math.PI) + to.y() + radius * Math.sin(angle)) / 2) - 200,
+      ((from.y() + radius * Math.sin(angle + Math.PI) + to.y() + radius * Math.sin(angle)) / 2) - 150,
       to.x() + -radius * Math.cos(angle),
       to.y() + radius * Math.sin(angle),
     ];
