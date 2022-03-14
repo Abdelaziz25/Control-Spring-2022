@@ -45,6 +45,19 @@ export class Update {
 
     let nodes = layer.find(".node");
 
+    if (from === to) {
+      let color = 0;
+      return [
+        from.x() + -radius * Math.cos(angle + Math.PI),
+        from.y() + radius * Math.sin(angle + Math.PI),
+        (from.x() + -radius * Math.cos(angle + Math.PI) + to.x() + -radius * Math.cos(angle)) / 2,
+        ((from.y() + radius * Math.sin(angle + Math.PI) + to.y() + radius * Math.sin(angle)) / 2) - 70,
+        to.x() + -radius * Math.cos(angle),
+        to.y() + radius * Math.sin(angle),
+        color
+      ];
+    }
+
     let node: number[] = [];
     for (let i = 0; i < nodes.length; i++)
       node[i] = nodes[i].getAttr('x');

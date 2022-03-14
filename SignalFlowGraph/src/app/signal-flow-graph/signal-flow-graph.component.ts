@@ -199,6 +199,8 @@ export class SignalFlowGraphComponent implements OnInit {
 
     first = machines[0];
     second = machines[1];
+    if (machines.length == 1)
+      second = machines[0];
 
     points = this.Update.getConnectorPointsOG(<Konva.Group>first, <Konva.Group>second, this.layer);
 
