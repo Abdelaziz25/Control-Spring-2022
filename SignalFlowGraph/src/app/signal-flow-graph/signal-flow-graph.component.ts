@@ -16,6 +16,7 @@ import {Update} from "./Utilities/Update";
 import {Convert} from "./Utilities/Convert";
 import {TextBuilder} from "./Elements/ElementBuilder/TextBuilder";
 
+
 @Component({
   selector: 'app-signal-flow-graph',
   templateUrl: './signal-flow-graph.component.html',
@@ -91,7 +92,7 @@ export class SignalFlowGraphComponent implements OnInit {
     );
   }
 
-  generateConnectors(arrow: Konva.Arrow, fromShape: Konva.Group, toShape: Konva.Group, weight: string = "1") {
+  generateConnectors(arrow: Konva.Arrow, fromShape: Konva.Group, toShape: Konva.Group, weight: string = "1") {  
     let from = fromShape.id();
     let to = toShape.id();
     if (from === to) {
@@ -153,13 +154,12 @@ export class SignalFlowGraphComponent implements OnInit {
     if (IDs.length != 0) this.machineID = Math.max(...IDs);
 
     let machine = this.NodeBuilder.buildNode(this.machineID);
-
+    machine.x
     this.machines.set("y_" + (this.machineID + 1), machine);
 
     this.addShape(machine);
     this.generateTargets(machine, this.machineID, this.machineTargets);
   }
-
   connect() {
     let IDsString = this.connectors.keys();
     let IDs = [];
@@ -177,7 +177,7 @@ export class SignalFlowGraphComponent implements OnInit {
     first = machines[0];
     second = machines[1];
 
-    points = this.Update.getConnectorPointsOG(<Konva.Group>first, <Konva.Group>second);
+    points = this.Update.getConnectorPointsOG(<Konva.Group>first, <Konva.Group>second,this.tr);
 
     let arrowGroup = this.ConnectorBuilder.buildConnector(points, this.connectorID);
 
