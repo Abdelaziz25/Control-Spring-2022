@@ -7,6 +7,7 @@ export class ConnectorBuilder {
       points: points,
       pointerLength: 10,
       pointerWidth: 10,
+      tension: 0.7,
       fill: 'black',
       stroke: 'black',
       strokeWidth: 4,
