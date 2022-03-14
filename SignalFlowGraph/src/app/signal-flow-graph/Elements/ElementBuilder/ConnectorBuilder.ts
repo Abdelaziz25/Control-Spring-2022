@@ -13,8 +13,10 @@ export class ConnectorBuilder {
       strokeWidth: 4,
       name: "connector",
     });
+
     let arrowGroup = new Konva.Group({
       id: 'connector_' + (connectorID + 1),
+      name: "connectorGroup",
     });
     arrowGroup.add(arrow);
     return arrowGroup;
