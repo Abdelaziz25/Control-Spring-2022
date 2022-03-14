@@ -14,16 +14,23 @@ export class Update {
       let fromNode = <Konva.Group>layer.findOne('#' + connector.from);
       let toNode = <Konva.Group>layer.findOne('#' + connector.to);
 
+      let TextX = arrow!.getSelfRect().x + arrow!.width() / 2
+      let textY = arrow!.getSelfRect().y + arrow!.height() / 2;
+
+      if (arrow.points().length == 6)
+        textY -= (arrow.points()[3] / 2);
+
       const points = this.getConnectorPointsOG(
         fromNode,
         toNode,
         layer,
       );
+
       if (arrow != null)
         arrow.points(points);
       if (text != null) {
-        text.x(arrow!.getSelfRect().x + arrow!.width() / 2);
-        text.y(arrow!.getSelfRect().y + arrow!.height() / 2);
+        text.x(TextX);
+        text.y(textY);
       }
     });
   }
@@ -42,7 +49,7 @@ export class Update {
       from.x() + -radius * Math.cos(angle + Math.PI),
       from.y() + radius * Math.sin(angle + Math.PI),
       (from.x() + -radius * Math.cos(angle + Math.PI) + to.x() + -radius * Math.cos(angle)) / 2,
-      -(from.y() + radius * Math.sin(angle + Math.PI) + to.y() + radius * Math.sin(angle) / 2) + 500,
+      ((from.y() + radius * Math.sin(angle + Math.PI) + to.y() + radius * Math.sin(angle)) / 2) - 200,
       to.x() + -radius * Math.cos(angle),
       to.y() + radius * Math.sin(angle),
     ];
