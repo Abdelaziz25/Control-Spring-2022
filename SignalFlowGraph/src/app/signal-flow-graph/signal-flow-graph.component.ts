@@ -87,9 +87,7 @@ export class SignalFlowGraphComponent implements OnInit {
   generateConnectors(arrow: Konva.Arrow, fromShape: Konva.Group, toShape: Konva.Group, weight: string = "1") {
     let from = fromShape.id();
     let to = toShape.id();
-    if (from === to) {
-      return;
-    }
+
     this.connectors.set(
       'connector_' + (this.connectorID + 1),
       new Connector('connector_' + (this.connectorID + 1), from, to, weight, arrow.points())
@@ -101,13 +99,13 @@ export class SignalFlowGraphComponent implements OnInit {
       return;
 
     let connector = <Konva.Group>this.tr.nodes()[0];
-    console.log(this.connectors.get(connector.id()));
 
     if (this.tr.nodes()[0].name() == 'connector' && key == '')
       this.input = (this.connectors.get(connector.id()).weight != "") ?
         this.connectors.get(connector.id()).weight : "1";
 
     else if (this.tr.nodes()[0].name() == 'connector') {
+      console.log(this.connectors.get(connector.id()));
       let connectorGroup = <Konva.Group>this.stage.find("#" + connector.id())[0];
       this.connectors.get(connector.id()).weight = this.input;
       let text = <Konva.Text>connectorGroup.children![1];
@@ -143,6 +141,7 @@ export class SignalFlowGraphComponent implements OnInit {
       if (document.getElementById("input") == null)
         return;
 
+      console.log("in");
       let arrowGroup = <Konva.Group>this.tr.nodes()[0];
       let textBox = <HTMLInputElement>document.getElementById("input");
       this.TextBuilder.constructText(this.tr, arrowGroup, textBox, this.connectors);
@@ -197,12 +196,17 @@ export class SignalFlowGraphComponent implements OnInit {
     let machines = this.tr.nodes().filter((machine) => machine.name() === "node");
 
     if (machines.length > 2) return;
+
     first = machines[0];
     second = machines[1];
+
     points = this.Update.getConnectorPointsOG(<Konva.Group>first, <Konva.Group>second, this.layer);
+
     let arrowGroup = this.ConnectorBuilder.buildConnector(points, this.connectorID);
+
     this.layer.add(arrowGroup);
     this.stage.add(this.layer);
+
     this.generateConnectors(<Konva.Arrow>arrowGroup.children![0], <Konva.Group>first, <Konva.Group>second);
     this.updateObjects();
     this.readGain(arrowGroup);

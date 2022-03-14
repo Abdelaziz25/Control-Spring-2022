@@ -8,6 +8,14 @@ export class TextBuilder {
       y: tr.y() - tr.height() / 4,
     };
 
+    let arrow = <Konva.Arrow>(<Konva.Group>tr.nodes()[0]).children![0];
+    console.log(arrow);
+
+    if (arrow.points().length == 6 && arrow.fill() == "black")
+      areaPosition.y -= 120;
+    else if (arrow.points().length == 6 && arrow.fill() == "#7C1D1DFF")
+      areaPosition.y += 120;
+
     let text = document.createElement("input");
     text.id = "input";
     text.style.position = 'absolute';
@@ -24,6 +32,7 @@ export class TextBuilder {
   }
 
   read(tr: Konva.Transformer, arrowGroup: Konva.Group, connectors: Map<string, Connector>) {
+    tr.nodes([arrowGroup]);
     let textBox = this.buildText(tr);
     tr.nodes([arrowGroup]);
 
@@ -42,8 +51,10 @@ export class TextBuilder {
     let textX = tr.x() + arrow.width() / 2;
     let textY = tr.y() + arrow.height() / 2;
 
-    if (arrow.points().length == 6)
-      textY -= (arrow.points()[3] / 2);
+    if (arrow.points().length == 6 && arrow.fill() == "black")
+      textY -= 120;
+    else if (arrow.points().length == 6 && arrow.fill() == "#7C1D1DFF")
+      textY += 120;
 
     textBox.style.visibility = 'hidden';
     let arrowText = new Konva.Text({
@@ -58,6 +69,6 @@ export class TextBuilder {
     });
 
     arrowGroup.add(arrowText);
-    connectors.get(arrowGroup.id())!.weight = arrowText.text();
+    connectors.get(arrowGroup.id())!.weight = (arrowText.text() == "") ? "1" : arrowText.text();
   }
 }

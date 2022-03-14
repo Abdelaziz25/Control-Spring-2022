@@ -14,11 +14,13 @@ export class Update {
       let fromNode = <Konva.Group>layer.findOne('#' + connector.from);
       let toNode = <Konva.Group>layer.findOne('#' + connector.to);
 
-      let TextX = arrow!.getSelfRect().x + arrow!.width() / 2
+      let textX = arrow!.getSelfRect().x + arrow!.width() / 2
       let textY = arrow!.getSelfRect().y + arrow!.height() / 2;
 
-      if (arrow.points().length == 6)
-        textY -= (arrow.points()[3] / 2);
+      if (arrow.points().length == 6 && arrow.fill() == "black")
+        textY -= 120;
+      else if (arrow.points().length == 6 && arrow.fill() == "#7C1D1DFF")
+        textY += 120;
 
       const points = this.getConnectorPointsOG(
         fromNode,
@@ -27,9 +29,9 @@ export class Update {
       );
 
       if (arrow != null)
-        arrow.points(points);
+        arrow.points(points.slice(0, 6));
       if (text != null) {
-        text.x(TextX);
+        text.x(textX);
         text.y(textY);
       }
     });
@@ -39,44 +41,44 @@ export class Update {
     const dx = to.x() - from.x();
     const dy = to.y() - from.y();
     let angle = Math.atan2(-dy, dx);
-    const radius = 20;
+    const radius = 25;
+
     let nodes = layer.find(".node");
-    var i:number;
-    var j:number;
-    var node:number[]=[];
-    for (i=0; i<nodes.length;i++)
-    {
-       node[i]= nodes[i].getAttr('x');
-    }
+
+    let node: number[] = [];
+    for (let i = 0; i < nodes.length; i++)
+      node[i] = nodes[i].getAttr('x');
+
     console.log(from.x())
     console.log(node)
-    for(j=0;j<node.length;j++)
-    {
-      if(node[j]>from.x() && node[j]<to.x())
-      {    
-    return [
-      from.x() + -radius * Math.cos(angle + Math.PI),
-      from.y() + radius * Math.sin(angle + Math.PI),
-    (from.x() + -radius * Math.cos(angle + Math.PI) + to.x() + -radius * Math.cos(angle)) / 2,
-  ((from.y() + radius * Math.sin(angle + Math.PI) + to.y() + radius * Math.sin(angle)) / 2) - 150,
-      to.x() + -radius * Math.cos(angle),
-      to.y() + radius * Math.sin(angle),
-    ];
-      
-      }
-      else if(node[j]<from.x() && node[j]>to.x())
-      {
+    for (let j = 0; j < node.length; j++) {
+      if (node[j] > from.x() && node[j] < to.x()) {
+        let color = 0;
         return [
           from.x() + -radius * Math.cos(angle + Math.PI),
           from.y() + radius * Math.sin(angle + Math.PI),
-        (from.x() + -radius * Math.cos(angle + Math.PI) + to.x() + -radius * Math.cos(angle)) / 2,
-      ((from.y() + radius * Math.sin(angle + Math.PI) + to.y() + radius * Math.sin(angle)) / 2) + 150,
+          (from.x() + -radius * Math.cos(angle + Math.PI) + to.x() + -radius * Math.cos(angle)) / 2,
+          ((from.y() + radius * Math.sin(angle + Math.PI) + to.y() + radius * Math.sin(angle)) / 2) - 120,
           to.x() + -radius * Math.cos(angle),
           to.y() + radius * Math.sin(angle),
+          color
         ];
-         
+      }
+
+      else if (node[j] < from.x() && node[j] > to.x()) {
+        let color = 1;
+        return [
+          from.x() + -radius * Math.cos(angle + Math.PI),
+          from.y() + radius * Math.sin(angle + Math.PI),
+          (from.x() + -radius * Math.cos(angle + Math.PI) + to.x() + -radius * Math.cos(angle)) / 2,
+          ((from.y() + radius * Math.sin(angle + Math.PI) + to.y() + radius * Math.sin(angle)) / 2) + 120,
+          to.x() + -radius * Math.cos(angle),
+          to.y() + radius * Math.sin(angle),
+          color
+        ];
       }
     }
+
     return [
       from.x() + -radius * Math.cos(angle + Math.PI),
       from.y() + radius * Math.sin(angle + Math.PI),
