@@ -40,16 +40,46 @@ export class Update {
     const dy = to.y() - from.y();
     let angle = Math.atan2(-dy, dx);
     const radius = 20;
-
     let nodes = layer.find(".node");
-
-    console.log(nodes)
-
+    var i:number;
+    var j:number;
+    var node:number[]=[];
+    for (i=0; i<nodes.length;i++)
+    {
+       node[i]= nodes[i].getAttr('x');
+    }
+    console.log(from.x())
+    console.log(node)
+    for(j=0;j<node.length;j++)
+    {
+      if(node[j]>from.x() && node[j]<to.x())
+      {    
     return [
       from.x() + -radius * Math.cos(angle + Math.PI),
       from.y() + radius * Math.sin(angle + Math.PI),
-      (from.x() + -radius * Math.cos(angle + Math.PI) + to.x() + -radius * Math.cos(angle)) / 2,
-      ((from.y() + radius * Math.sin(angle + Math.PI) + to.y() + radius * Math.sin(angle)) / 2) - 150,
+    (from.x() + -radius * Math.cos(angle + Math.PI) + to.x() + -radius * Math.cos(angle)) / 2,
+  ((from.y() + radius * Math.sin(angle + Math.PI) + to.y() + radius * Math.sin(angle)) / 2) - 150,
+      to.x() + -radius * Math.cos(angle),
+      to.y() + radius * Math.sin(angle),
+    ];
+      
+      }
+      else if(node[j]<from.x() && node[j]>to.x())
+      {
+        return [
+          from.x() + -radius * Math.cos(angle + Math.PI),
+          from.y() + radius * Math.sin(angle + Math.PI),
+        (from.x() + -radius * Math.cos(angle + Math.PI) + to.x() + -radius * Math.cos(angle)) / 2,
+      ((from.y() + radius * Math.sin(angle + Math.PI) + to.y() + radius * Math.sin(angle)) / 2) + 150,
+          to.x() + -radius * Math.cos(angle),
+          to.y() + radius * Math.sin(angle),
+        ];
+         
+      }
+    }
+    return [
+      from.x() + -radius * Math.cos(angle + Math.PI),
+      from.y() + radius * Math.sin(angle + Math.PI),
       to.x() + -radius * Math.cos(angle),
       to.y() + radius * Math.sin(angle),
     ];

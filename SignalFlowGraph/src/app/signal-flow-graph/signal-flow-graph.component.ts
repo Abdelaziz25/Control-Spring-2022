@@ -197,17 +197,12 @@ export class SignalFlowGraphComponent implements OnInit {
     let machines = this.tr.nodes().filter((machine) => machine.name() === "node");
 
     if (machines.length > 2) return;
-
     first = machines[0];
     second = machines[1];
-
     points = this.Update.getConnectorPointsOG(<Konva.Group>first, <Konva.Group>second, this.layer);
-
     let arrowGroup = this.ConnectorBuilder.buildConnector(points, this.connectorID);
-
     this.layer.add(arrowGroup);
     this.stage.add(this.layer);
-
     this.generateConnectors(<Konva.Arrow>arrowGroup.children![0], <Konva.Group>first, <Konva.Group>second);
     this.updateObjects();
     this.readGain(arrowGroup);
