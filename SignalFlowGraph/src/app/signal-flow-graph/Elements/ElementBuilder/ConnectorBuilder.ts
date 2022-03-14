@@ -6,7 +6,6 @@ export class ConnectorBuilder {
       id: 'connector_' + (connectorID + 1),
       points: points,
       pointerLength: 10,
-      tension:0.7,
       pointerWidth: 10,
       fill: 'black',
       stroke: 'black',
@@ -18,7 +17,9 @@ export class ConnectorBuilder {
       id: 'connector_' + (connectorID + 1),
       name: "connectorGroup",
     });
+
     arrowGroup.add(arrow);
+
     return arrowGroup;
   }
 }

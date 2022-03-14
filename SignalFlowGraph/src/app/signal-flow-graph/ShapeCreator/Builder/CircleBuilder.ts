@@ -17,14 +17,12 @@ export class CircleBuilder implements Builder {
     this.Konva.setAttrs({
       fill: FillColor,
       stroke: Stroke,
-      name:'Node',
       strokeWidth: StrokeWidth,
       radius: Radius,
       alpha: Alpha,
       rotation: RotateAngle,
       shadowBlur: 20,
       shadowOpacity: 0.5
-     
     })
   }
 
