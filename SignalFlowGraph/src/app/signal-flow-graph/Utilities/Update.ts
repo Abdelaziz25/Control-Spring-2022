@@ -45,6 +45,24 @@ export class Update {
     var flag:boolean=false;
     var flag2:boolean=false;
     let adjacencyList = new Convert().convert(connectors);
+    console.log(from.id())
+    console.log(to.id())
+    if(adjacencyList.has(from.id()) && adjacencyList.has(to.id()) )
+    {
+       if ( from.x() > to.x() ) {
+   
+        let color = 1;
+        return [
+          from.x() + -radius * Math.cos(angle + Math.PI),
+          from.y() + radius * Math.sin(angle + Math.PI),
+          (from.x() + -radius * Math.cos(angle + Math.PI) + to.x() + -radius * Math.cos(angle)) / 2,
+          ((from.y() + radius * Math.sin(angle + Math.PI) + to.y() + radius * Math.sin(angle)) / 2) + 120,
+          to.x() + -radius * Math.cos(angle),
+          to.y() + radius * Math.sin(angle),
+          color
+        ];
+      }
+    }
      connectors.forEach((connector: any) => {
        if(connector.from==from.id()&&connector.to==to.id())
        {
@@ -152,7 +170,6 @@ export class Update {
       node[i] = nodes[i].getAttr('x');
       node2[i]=nodes[i].getAttr('y');
     }
-
     for (let j = 0; j < node.length; j++) {
       if (node[j] > from.x() && node[j] < to.x() ) {
         if(Math.abs(node2[j]-from.y())<20 && Math.abs(node2[j]-to.y())<20 )
@@ -170,7 +187,6 @@ export class Update {
         }
       }
       else if (node[j] < from.x() && node[j] > to.x() ||(adjacencyList.has(to.id()) && !adjacencyList.has(from.id()) &&adjacencyList.get(to.id())?.filter((c)=>c.name==from.id())[0]!=null )) {
-        console.log("warena")
         let color = 1;
         return [
           from.x() + -radius * Math.cos(angle + Math.PI),
@@ -183,7 +199,7 @@ export class Update {
         ];
       }
     }
-    console.log("lol")
+  
     return [ 
       from.x() + -radius * Math.cos(angle + Math.PI),
       from.y() + radius * Math.sin(angle + Math.PI),
