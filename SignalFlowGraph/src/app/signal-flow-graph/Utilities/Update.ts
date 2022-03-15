@@ -1,6 +1,9 @@
 import Konva from "konva";
+import {Connector} from "../Elements/ConcreteElements/Connector";
+import {Convert} from "./Convert";
 
 export class Update {
+  connectors: any = new Map<string, Connector>();
   updateObjects(layer: Konva.Layer, machineTargets: Map<string, any>, connectors: Map<string, any>) {
     machineTargets.forEach((machineTarget: any) => {
       let node = layer.findOne('#' + machineTarget.id);
@@ -26,6 +29,7 @@ export class Update {
         fromNode,
         toNode,
         layer,
+        connectors,
       );
 
       if (arrow != null)
@@ -37,11 +41,13 @@ export class Update {
     });
   }
 
-  getConnectorPointsOG(from: Konva.Group, to: Konva.Group, layer: Konva.Layer) {
+  getConnectorPointsOG(from: Konva.Group, to: Konva.Group, layer: Konva.Layer, connectors: Map<string, Connector>) {
     const dx = to.x() - from.x();
     const dy = to.y() - from.y();
     let angle = Math.atan2(-dy, dx);
     const radius = 25;
+
+    let adjacencyList = new Convert().convert(connectors);
 
     let nodes = layer.find(".node");
 

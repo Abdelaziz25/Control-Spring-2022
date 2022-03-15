@@ -202,7 +202,7 @@ export class SignalFlowGraphComponent implements OnInit {
     if (machines.length == 1)
       second = machines[0];
 
-    points = this.Update.getConnectorPointsOG(<Konva.Group>first, <Konva.Group>second, this.layer);
+    points = this.Update.getConnectorPointsOG(<Konva.Group>first, <Konva.Group>second, this.layer, this.connectors);
 
     let arrowGroup = this.ConnectorBuilder.buildConnector(points, this.connectorID);
 
@@ -219,11 +219,10 @@ export class SignalFlowGraphComponent implements OnInit {
   }
 
   convert() {
-    let ob = new Convert();
-    console.log(ob.convert(this.connectors));
+    return new Convert().convert(this.connectors);
   }
 
   calc() {
-    this.convert();
+    return this.convert();
   }
 }
