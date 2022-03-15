@@ -6,7 +6,7 @@ export class ConnectorBuilder {
     if (points.length == 7) {
       color = (points[6] == 1) ? '#7C1D1DFF' : 'black';
       points = points.slice(0, 6);
-      console.log(color);
+      
     }
 
     let arrow = new Konva.Arrow({

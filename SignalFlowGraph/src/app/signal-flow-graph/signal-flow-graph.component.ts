@@ -105,7 +105,6 @@ export class SignalFlowGraphComponent implements OnInit {
         this.connectors.get(connector.id()).weight : "1";
 
     else if (this.tr.nodes()[0].name() == 'connector') {
-      console.log(this.connectors.get(connector.id()));
       let connectorGroup = <Konva.Group>this.stage.find("#" + connector.id())[0];
       this.connectors.get(connector.id()).weight = this.input;
       let text = <Konva.Text>connectorGroup.children![1];
@@ -140,8 +139,6 @@ export class SignalFlowGraphComponent implements OnInit {
     this.stage.on("click", () => {
       if (document.getElementById("input") == null)
         return;
-
-      console.log("in");
       let arrowGroup = <Konva.Group>this.tr.nodes()[0];
       let textBox = <HTMLInputElement>document.getElementById("input");
       this.TextBuilder.constructText(this.tr, arrowGroup, textBox, this.connectors);

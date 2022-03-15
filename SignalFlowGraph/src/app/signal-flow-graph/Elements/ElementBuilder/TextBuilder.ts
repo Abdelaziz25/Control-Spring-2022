@@ -9,7 +9,7 @@ export class TextBuilder {
     };
 
     let arrow = <Konva.Arrow>(<Konva.Group>tr.nodes()[0]).children![0];
-    console.log(arrow);
+
 
     if (arrow.points().length == 6 && arrow.fill() == "black")
       areaPosition.y -= 120;

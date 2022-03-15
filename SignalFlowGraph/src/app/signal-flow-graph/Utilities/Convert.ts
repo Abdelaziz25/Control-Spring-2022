@@ -10,7 +10,6 @@ export class Convert {
       let to = connector.to;
       let weight = connector.weight;
       let nodes : Node[] | undefined = [];
-      console.log(connector);
       if (adjacencyList.get(from) != undefined) {
         nodes = adjacencyList.get(from);
       }
