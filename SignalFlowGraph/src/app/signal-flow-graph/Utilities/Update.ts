@@ -45,8 +45,6 @@ export class Update {
     var flag:boolean=false;
     var flag2:boolean=false;
     let adjacencyList = new Convert().convert(connectors);
-    console.log(from.id())
-    console.log(to.id())
     if(adjacencyList.has(from.id()) && adjacencyList.has(to.id()) )
     {
        if ( from.x() > to.x() ) {
@@ -116,12 +114,12 @@ export class Update {
      }
      if(adjacencyList.has(to.id()) && !adjacencyList.has(from.id()))
      {
-      console.log("a7at") 
+     
        if(adjacencyList.get(to.id())?.filter((c)=>c.name==from.id())[0]!=null)
        {
         
         if ( from.x() < to.x()) {
-          console.log("a7at")
+        
           let color = 0;
           return [
             from.x() + -radius * Math.cos(angle + Math.PI),
@@ -134,7 +132,7 @@ export class Update {
           ];
         }
         else if ( from.x() > to.x() ) {
-            console.log("a7a")
+      
           let color = 1;
           return [
             from.x() + -radius * Math.cos(angle + Math.PI),
