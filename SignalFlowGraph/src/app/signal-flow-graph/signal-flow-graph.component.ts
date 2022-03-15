@@ -109,10 +109,7 @@ export class SignalFlowGraphComponent implements OnInit {
       this.connectors.get(connector.id()).weight = this.input;
       let text = <Konva.Text>connectorGroup.children![1];
 
-      if (this.input != "1")
-        text.text(this.input);
-      else
-        text.text("");
+      text.text(this.input);
     }
   }
 
@@ -189,15 +186,21 @@ export class SignalFlowGraphComponent implements OnInit {
     }
     if (IDs.length != 0) this.connectorID = Math.max(...IDs);
 
-    let first, second, points;
+    let first: Konva.Group, second: Konva.Group, points, connectorFound = false;
     let machines = this.tr.nodes().filter((machine) => machine.name() === "node");
 
     if (machines.length > 2) return;
 
-    first = machines[0];
-    second = machines[1];
+    first = <Konva.Group>machines[0];
+    second = <Konva.Group>machines[1];
     if (machines.length == 1)
-      second = machines[0];
+      second = <Konva.Group>machines[0];
+
+    this.connectors.forEach((connector: any) => {
+      if (connector.from == first.id() && connector.to == second.id())
+        connectorFound = true;
+    })
+    if (connectorFound) return;
 
     points = this.Update.getConnectorPointsOG(<Konva.Group>first, <Konva.Group>second, this.layer, this.connectors);
 

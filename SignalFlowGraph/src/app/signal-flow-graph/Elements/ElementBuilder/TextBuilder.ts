@@ -1,20 +1,23 @@
 import Konva from "konva";
 import {Connector} from "../ConcreteElements/Connector";
+import {Update} from "../../Utilities/Update";
 
 export class TextBuilder {
   buildText(tr: Konva.Transformer) {
-    let areaPosition = {
-      x: tr.x() + tr.width() / 3,
-      y: tr.y() - tr.height() / 4,
-    };
-
     let arrow = <Konva.Arrow>(<Konva.Group>tr.nodes()[0]).children![0];
 
+    let areaPosition = {
+      x: 0,
+      y: 0,
+    };
 
-    if (arrow.points().length == 6 && arrow.fill() == "black")
-      areaPosition.y -= 120;
-    else if (arrow.points().length == 6 && arrow.fill() == "#7C1D1DFF")
-      areaPosition.y += 120;
+    if (arrow.points().length == 6) {
+      areaPosition.y = arrow.points()[3];
+      areaPosition.x = arrow.points()[2];
+    } else {
+      areaPosition.y = (arrow.points()[1] + arrow.points()[3]) / 2;
+      areaPosition.x = (arrow.points()[0] + arrow.points()[2]) / 2;
+    }
 
     let text = document.createElement("input");
     text.id = "input";
@@ -48,13 +51,10 @@ export class TextBuilder {
   constructText(tr: Konva.Transformer, arrowGroup: Konva.Group,
                 textBox: HTMLInputElement, connectors: Map<string, Connector>) {
     let arrow = <Konva.Arrow>arrowGroup.children![0];
-    let textX = tr.x() + arrow.width() / 2;
-    let textY = tr.y() + arrow.height() / 2;
 
-    if (arrow.points().length == 6 && arrow.fill() == "black")
-      textY -= 120;
-    else if (arrow.points().length == 6 && arrow.fill() == "#7C1D1DFF")
-      textY += 120;
+    let TextPoints = new Update().getTextPoint(arrow.points());
+    let textX = TextPoints[0];
+    let textY = TextPoints[1];
 
     textBox.style.visibility = 'hidden';
     let arrowText = new Konva.Text({
@@ -69,6 +69,8 @@ export class TextBuilder {
     });
 
     arrowGroup.add(arrowText);
+    if (arrowText.text() == "")
+      arrowText.text("1")
     connectors.get(arrowGroup.id())!.weight = (arrowText.text() == "") ? "1" : arrowText.text();
   }
 }
