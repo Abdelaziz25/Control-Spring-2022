@@ -26,7 +26,7 @@ export class SelectorTools {
       }
 
       if (e.target.hasName('connector')) {
-        // do we pressed shift or ctrl?
+        // do we press shift or ctrl?
         const metaPressed = e.evt.shiftKey || e.evt.ctrlKey || e.evt.metaKey;
         const isSelected = tr.nodes().indexOf(e.target) >= 0;
 

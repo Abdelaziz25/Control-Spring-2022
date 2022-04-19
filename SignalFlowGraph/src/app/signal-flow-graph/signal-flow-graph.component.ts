@@ -1,7 +1,5 @@
 import {Component, HostListener, OnInit} from '@angular/core';
 import {
-  faFileUpload,
-  faMousePointer,
   faPlay,
   faCogs,
   faLink
@@ -15,7 +13,7 @@ import {SelectorTools} from "./Utilities/SelectorTools";
 import {Update} from "./Utilities/Update";
 import {Convert} from "./Utilities/Convert";
 import {TextBuilder} from "./Elements/ElementBuilder/TextBuilder";
-import { ForwardPath } from './Operations/ForwardPath';
+import {ForwardPath} from "./Operations/ForwardPath";
 
 
 @Component({
@@ -29,16 +27,11 @@ export class SignalFlowGraphComponent implements OnInit {
   NodeBuilder: NodeBuilder = new NodeBuilder();
   ConnectorBuilder: ConnectorBuilder = new ConnectorBuilder();
   TextBuilder: TextBuilder = new TextBuilder();
-  input: number = 0;
-  productsNum: number = 0;
-  order: number = 0;
-  products: any = [];
+  input: string = '1';
 
   faPlay = faPlay;
   faLink = faLink;
   faCogs = faCogs;
-  faUpload = faFileUpload;
-  faMousePointer = faMousePointer;
 
   stage!: Konva.Stage;
   layer!: Konva.Layer;
@@ -49,7 +42,6 @@ export class SignalFlowGraphComponent implements OnInit {
   connectors: any = new Map<string, Connector>();
 
   machineID: number = 0;
-  queueID: number = 0;
   connectorID: number = 0;
 
   constructor() {
@@ -84,6 +76,12 @@ export class SignalFlowGraphComponent implements OnInit {
       enabledAnchors: [],
     });
     this.layer.add(this.tr);
+    this.loadLayout();
+  }
+
+  loadLayout() {
+    this.buildMachine("in", window.screenLeft + 100, 400);
+    this.buildMachine("out", window.screen.availWidth - 100, 400);
   }
 
   generateTargets(shape: Konva.Group, ID: number, targets: Map<string, any>) {
@@ -93,20 +91,33 @@ export class SignalFlowGraphComponent implements OnInit {
     );
   }
 
-  generateConnectors(arrow: Konva.Arrow, fromShape: Konva.Group, toShape: Konva.Group, weight: string = "1") {  
+  generateConnectors(arrow: Konva.Arrow, fromShape: Konva.Group, toShape: Konva.Group, weight: string = "1") {
     let from = fromShape.id();
     let to = toShape.id();
-    if (from === to) {
-      return;
-    }
+
     this.connectors.set(
       'connector_' + (this.connectorID + 1),
       new Connector('connector_' + (this.connectorID + 1), from, to, weight, arrow.points())
     );
   }
 
-  updateGain() {
-    this.productsNum = this.input;
+  updateGain(key: string = '') {
+    if (this.tr.nodes().length != 1)
+      return;
+
+    let connector = <Konva.Group>this.tr.nodes()[0];
+
+    if (this.tr.nodes()[0].name() == 'connector' && key == '')
+      this.input = (this.connectors.get(connector.id()).weight != "") ?
+        this.connectors.get(connector.id()).weight : "1";
+
+    else if (this.tr.nodes()[0].name() == 'connector') {
+      let connectorGroup = <Konva.Group>this.stage.find("#" + connector.id())[0];
+      this.connectors.get(connector.id()).weight = this.input;
+      let text = <Konva.Text>connectorGroup.children![1];
+
+      text.text(this.input);
+    }
   }
 
   updateObjects() {
@@ -129,6 +140,16 @@ export class SignalFlowGraphComponent implements OnInit {
   }
 
   SelectorType() {
+    this.stage.on("click", () => {
+      if (document.getElementById("input") == null)
+        return;
+      let arrowGroup = <Konva.Group>this.tr.nodes()[0];
+      let textBox = <HTMLInputElement>document.getElementById("input");
+      this.TextBuilder.constructText(this.tr, arrowGroup, textBox, this.connectors);
+
+      textBox!.remove();
+    });
+
     this.stage.on("dragend", () => {
       let selectedShapes = this.tr.nodes();
       for (let selectedShape of selectedShapes) {
@@ -136,8 +157,10 @@ export class SignalFlowGraphComponent implements OnInit {
       }
       this.updateObjects();
     });
+
     this.SelectorTools.boxSelect(this.stage, this.tr, this.layer);
     this.SelectorTools.clickSelect(this.stage, this.tr);
+    this.updateGain();
   }
 
   addShape(konvaShape: Konva.Group) {
@@ -145,7 +168,7 @@ export class SignalFlowGraphComponent implements OnInit {
     this.stage.add(this.layer);
   }
 
-  buildMachine() {
+  buildMachine(name: string = "", x: number = 0, y: number = 0) {
     let IDsString = this.machines.keys();
     let IDs = [];
 
@@ -153,14 +176,21 @@ export class SignalFlowGraphComponent implements OnInit {
       IDs.push(parseInt(string.split("_")[1]));
     }
     if (IDs.length != 0) this.machineID = Math.max(...IDs);
+    if (!this.machineID) this.machineID = 0;
 
-    let machine = this.NodeBuilder.buildNode(this.machineID);
-    machine.x
-    this.machines.set("y_" + (this.machineID + 1), machine);
+    let machine;
+    if (name == "") {
+      machine = this.NodeBuilder.buildNode(this.machineID);
+      this.machines.set("y_" + (this.machineID + 1), machine);
+    } else {
+      machine = this.NodeBuilder.buildNode(this.machineID, name, x, y);
+      this.machines.set(name, machine);
+    }
 
     this.addShape(machine);
     this.generateTargets(machine, this.machineID, this.machineTargets);
   }
+
   connect() {
     let IDsString = this.connectors.keys();
     let IDs = [];
@@ -170,15 +200,23 @@ export class SignalFlowGraphComponent implements OnInit {
     }
     if (IDs.length != 0) this.connectorID = Math.max(...IDs);
 
-    let first, second, points;
+    let first: Konva.Group, second: Konva.Group, points, connectorFound = false;
     let machines = this.tr.nodes().filter((machine) => machine.name() === "node");
 
     if (machines.length > 2) return;
 
-    first = machines[0];
-    second = machines[1];
+    first = <Konva.Group>machines[0];
+    second = <Konva.Group>machines[1];
+    if (machines.length == 1)
+      second = <Konva.Group>machines[0];
 
-    points = this.Update.getConnectorPointsOG(<Konva.Group>first, <Konva.Group>second,this.tr);
+    this.connectors.forEach((connector: any) => {
+      if (connector.from == first.id() && connector.to == second.id())
+        connectorFound = true;
+    })
+    if (connectorFound) return;
+
+    points = this.Update.getConnectorPointsOG(<Konva.Group>first, <Konva.Group>second, this.layer, this.connectors);
 
     let arrowGroup = this.ConnectorBuilder.buildConnector(points, this.connectorID);
 
@@ -196,12 +234,12 @@ export class SignalFlowGraphComponent implements OnInit {
 
   convert() {
     let ob = new Convert();
-    let FrwdPath=new ForwardPath(ob.convert(this.connectors));
+    let forwardPath = new ForwardPath(ob.convert(this.connectors));
     console.log(ob.convert(this.connectors));
-    console.log(FrwdPath.getAllFrwdPaths('y_1','y_2'));
+    console.log(forwardPath.getAllFrwdPaths('in', 'out'));
   }
 
   calc() {
-    this.convert();
+    return this.convert();
   }
 }
