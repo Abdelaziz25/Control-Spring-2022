@@ -15,6 +15,7 @@ import {SelectorTools} from "./Utilities/SelectorTools";
 import {Update} from "./Utilities/Update";
 import {Convert} from "./Utilities/Convert";
 import {TextBuilder} from "./Elements/ElementBuilder/TextBuilder";
+import { ForwardPath } from './Operations/ForwardPath';
 
 
 @Component({
@@ -195,7 +196,9 @@ export class SignalFlowGraphComponent implements OnInit {
 
   convert() {
     let ob = new Convert();
+    let FrwdPath=new ForwardPath(ob.convert(this.connectors));
     console.log(ob.convert(this.connectors));
+    console.log(FrwdPath.getAllFrwdPaths('y_1','y_2'));
   }
 
   calc() {
