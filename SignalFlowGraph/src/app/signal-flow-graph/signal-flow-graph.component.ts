@@ -1,5 +1,7 @@
 import {Component, HostListener, OnInit} from '@angular/core';
 import {
+  faFileUpload,
+  faMousePointer,
   faPlay,
   faCogs,
   faLink
@@ -13,7 +15,8 @@ import {SelectorTools} from "./Utilities/SelectorTools";
 import {Update} from "./Utilities/Update";
 import {Convert} from "./Utilities/Convert";
 import {TextBuilder} from "./Elements/ElementBuilder/TextBuilder";
-import {ForwardPath} from "./Operations/ForwardPath";
+import { ForwardPath } from './Operations/ForwardPath';
+import { CyclePath } from './Operations/CyclePath';
 
 
 @Component({
@@ -234,12 +237,18 @@ export class SignalFlowGraphComponent implements OnInit {
 
   convert() {
     let ob = new Convert();
-    let forwardPath = new ForwardPath(ob.convert(this.connectors));
+    let forwardPath=new ForwardPath(ob.convert(this.connectors));
+    let cyclePath=new CyclePath(ob.convert(this.connectors));
     console.log(ob.convert(this.connectors));
-    console.log(forwardPath.getAllFrwdPaths('in', 'out'));
+    console.log("Forward paths");
+    console.log(forwardPath.getAllFrwdPaths('y_1','y_2'));
+    console.log("Cycles");
+    console.log(cyclePath.getAllCyclePaths());
+
+
   }
 
   calc() {
-    return this.convert();
+    this.convert();
   }
 }

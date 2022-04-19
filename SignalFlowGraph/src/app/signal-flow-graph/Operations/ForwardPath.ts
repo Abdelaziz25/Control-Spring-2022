@@ -27,16 +27,14 @@ export class ForwardPath{
             return;
         }
         visited.set(vertex,true);
-        for(let neighbour of this.adjacencyList.get(vertex) as Node[]){
-            if(!visited.get(neighbour.name) && neighbour.name!== vertex){ //avoid visited and avoid self loops
-                pathList.push(neighbour.name);
-                this.getAllFrwdPathsRecursive(neighbour.name,Destination,visited,pathList);
-                //remove neighbour from the path
-                // var index = pathList.indexOf(neighbour.name);
-                // if(index>-1){
-                //     pathList.splice(index,1);
-                // }
-                pathList.pop();
+        if(this.adjacencyList.get(vertex)!=undefined){
+            for(let neighbour of this.adjacencyList.get(vertex) as Node[]){
+                if(!visited.get(neighbour.name) && neighbour.name!== vertex){ //avoid visited and avoid self loops
+                    pathList.push(neighbour.name);
+                    this.getAllFrwdPathsRecursive(neighbour.name,Destination,visited,pathList);
+                    //remove neighbour from the path
+                    pathList.pop();
+                }
             }
         }
 
