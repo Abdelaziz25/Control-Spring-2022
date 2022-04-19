@@ -1,7 +1,5 @@
 import {Component, HostListener, OnInit} from '@angular/core';
 import {
-  faFileUpload,
-  faMousePointer,
   faPlay,
   faCogs,
   faLink
@@ -15,8 +13,8 @@ import {SelectorTools} from "./Utilities/SelectorTools";
 import {Update} from "./Utilities/Update";
 import {Convert} from "./Utilities/Convert";
 import {TextBuilder} from "./Elements/ElementBuilder/TextBuilder";
-import { ForwardPath } from './Operations/ForwardPath';
-import { CyclePath } from './Operations/CyclePath';
+import {ForwardPath} from './Operations/ForwardPath';
+import {CyclePath} from './Operations/CyclePath';
 
 
 @Component({
@@ -173,13 +171,17 @@ export class SignalFlowGraphComponent implements OnInit {
 
   buildMachine(name: string = "", x: number = 0, y: number = 0) {
     let IDsString = this.machines.keys();
+    console.log(this.machines);
     let IDs = [];
 
     for (let string of IDsString) {
+      if (!string.includes("_"))
+        continue;
       IDs.push(parseInt(string.split("_")[1]));
     }
     if (IDs.length != 0) this.machineID = Math.max(...IDs);
     if (!this.machineID) this.machineID = 0;
+    console.log(this.machineID);
 
     let machine;
     if (name == "") {
@@ -237,15 +239,13 @@ export class SignalFlowGraphComponent implements OnInit {
 
   convert() {
     let ob = new Convert();
-    let forwardPath=new ForwardPath(ob.convert(this.connectors));
-    let cyclePath=new CyclePath(ob.convert(this.connectors));
+    let forwardPath = new ForwardPath(ob.convert(this.connectors));
+    let cyclePath = new CyclePath(ob.convert(this.connectors));
     console.log(ob.convert(this.connectors));
     console.log("Forward paths");
-    console.log(forwardPath.getAllFrwdPaths('y_1','y_2'));
+    console.log(forwardPath.getAllFrwdPaths('in', 'out'));
     console.log("Cycles");
     console.log(cyclePath.getAllCyclePaths());
-
-
   }
 
   calc() {
