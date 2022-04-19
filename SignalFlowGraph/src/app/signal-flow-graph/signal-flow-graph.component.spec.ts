@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {SignalFlowGraphComponent} from './signal-flow-graph.component';
 
-describe('ProducerConsumerDiagramComponent', () => {
+describe('SignalFlowGraphDiagramComponent', () => {
   let component: SignalFlowGraphComponent;
   let fixture: ComponentFixture<SignalFlowGraphComponent>;
 
