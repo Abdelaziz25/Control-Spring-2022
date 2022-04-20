@@ -79,7 +79,7 @@ a:hover {
 .control-box {
   position: relative;
   display: inline-block;
-  width: 44.66%;
+  width: 33.66%;
   margin-right: 1.33%;
   height: 120px;
 }
@@ -90,6 +90,14 @@ a:hover {
 
 .control-box.brush {
   width: 15.33%;
+}
+
+.control-box.settings {
+  width: 15.33%;
+}
+
+.control-box.result {
+  width: 44.33%;
 }
 
 .control-header {

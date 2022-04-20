@@ -19,15 +19,23 @@
         </div>
       </div>
     </div>
-      <div class="control-box brush">
-          <div class="control-header">Settings</div>
-          <div class="brush">
-              <div class="control-inner2">
-                  <div class="control-header" style="margin-top:10px!important">Gain</div>
-                  <input id="color" type="text" value="#ff0000" [(ngModel)]="input"
-                         (keydown.enter)="updateGain('enter')"/>
-              </div>
-          </div>
+    <div class="control-box settings">
+      <div class="control-header">Settings</div>
+      <div class="settings">
+        <div class="control-inner2">
+          <div class="control-header" style="margin-top:10px!important">Gain</div>
+          <input id="color" type="text" value="#ff0000" [(ngModel)]="input"
+                 (keydown.enter)="updateGain('enter')"/>
+        </div>
       </div>
+    </div>
+    <div class="control-box result">
+      <div class="control-header">Result</div>
+      <div class="result">
+        <div class="control-inner2">
+          <div class="control-header" style="margin-top:10px!important">{{result}}</div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

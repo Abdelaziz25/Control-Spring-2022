@@ -29,6 +29,7 @@ export class SignalFlowGraphComponent implements OnInit {
   ConnectorBuilder: ConnectorBuilder = new ConnectorBuilder();
   TextBuilder: TextBuilder = new TextBuilder();
   input: string = '1';
+  result: string = "";
 
   faPlay = faPlay;
   faLink = faLink;
@@ -250,6 +251,9 @@ export class SignalFlowGraphComponent implements OnInit {
     console.log(cyclePath.getAllCyclePaths());
     console.log("Cycles paths gain");
     console.log(cyclePath.getAllCyclePathsGain());
+    this.result = "Forward pathsForward pathsForward pathsForward pathsForward paths\n";
+    this.result = this.result.repeat(10);
+    console.log(this.result);
   }
 
   calc() {
