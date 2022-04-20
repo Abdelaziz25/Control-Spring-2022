@@ -244,8 +244,12 @@ export class SignalFlowGraphComponent implements OnInit {
     console.log(ob.convert(this.connectors));
     console.log("Forward paths");
     console.log(forwardPath.getAllFrwdPaths('in', 'out'));
+    console.log("Forward paths gain");
+    console.log(forwardPath.getAllFrwdPathsGain());
     console.log("Cycles");
     console.log(cyclePath.getAllCyclePaths());
+    console.log("Cycles paths gain");
+    console.log(cyclePath.getAllCyclePathsGain());
   }
 
   calc() {
