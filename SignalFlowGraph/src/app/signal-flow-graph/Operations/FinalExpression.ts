@@ -29,7 +29,7 @@ export class FinalExpression {
   }
 
   private makeDenominator() {
-    this.denominator += "1 - ( ( "
+    this.denominator += "1 - ( "
 
     for (let i = 0; i < this.loopsGains.length; i++) {
       this.loopsGainsVals.push(this.makeGain(this.loopsGains[i]));
