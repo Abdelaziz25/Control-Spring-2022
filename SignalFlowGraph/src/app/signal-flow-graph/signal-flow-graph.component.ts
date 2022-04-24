@@ -264,6 +264,7 @@ export class SignalFlowGraphComponent implements OnInit {
       cyclePath.getAllCyclePathsGain()) ;
 
     console.log(expression.denominator) ;
+    console.log(expression.numerator) ;
 
     // this.result = "Forward pathsForward pathsForward pathsForward pathsForward paths\n";
     // this.result = this.result.repeat(10);

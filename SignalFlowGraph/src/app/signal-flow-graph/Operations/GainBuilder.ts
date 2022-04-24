@@ -8,8 +8,14 @@ export class GainBuilder {
   }
 
   makeString(): string {
-    if (this.num == 1) return this.str.toString();
-    else if (this.num == -1) return '-' + this.str;
+    if (this.num == 1) {
+      if(this.str == "") return "1" ;
+      return this.str.toString();
+    }
+    else if (this.num == -1) {
+      if(this.str == "") return "-1" ;
+      return '-' + this.str;
+    }
     else return this.num.toString() + this.str;
   }
 }

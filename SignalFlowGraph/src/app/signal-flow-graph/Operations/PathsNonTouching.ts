@@ -1,4 +1,4 @@
-export class pathsNonTouching {
+export class PathsNonTouching {
   private paths: String[][];
   private loops: String[][];
   private nonTouching: number[][];

@@ -1,9 +1,11 @@
 import {LoopsNonTouching} from "./LoopsNonTouching";
 import {GainBuilder} from "./GainBuilder";
+import {PathsNonTouching} from "./PathsNonTouching";
 
 export class FinalExpression {
   paths: String[][];
   frwdGains: String[][];
+  pathsGainsVals: GainBuilder[];
   loops: String [][];
   loopsGains: String[][];
   loopsGainsVals: GainBuilder[];
@@ -18,6 +20,7 @@ export class FinalExpression {
     this.loopsGains = loopsGains;
 
     this.loopsGainsVals = [];
+    this.pathsGainsVals = [];
     this.numerator = "";
     this.denominator = "";
 
@@ -26,7 +29,7 @@ export class FinalExpression {
   }
 
   private makeDenominator() {
-    this.denominator += "1 - ( "
+    this.denominator += "1 - ( ( "
 
     for (let i = 0; i < this.loopsGains.length; i++) {
       this.loopsGainsVals.push(this.makeGain(this.loopsGains[i]));
@@ -47,9 +50,26 @@ export class FinalExpression {
     }
   }
 
-  private makeNumerator(){
-    for (let i = 0; i <this.paths.length; i++) {
+  private makeNumerator() {
+    let nonTouching = new PathsNonTouching(this.paths, this.loops);
+    let array = nonTouching.getNonTouching();
 
+    for (let i = 0; i < this.paths.length; i++) {
+      this.pathsGainsVals.push(this.makeGain(this.frwdGains[i]));
+      this.numerator += this.pathsGainsVals[i].makeString();
+
+      if (array[i].length != 0) {
+        this.numerator += " ( 1 - ( ";
+
+        for (let j = 0; j < array[i].length; j++) {
+          this.numerator += this.loopsGainsVals[array[i][j]].makeString();
+          if (j != array[i].length - 1) this.numerator += " + ";
+        }
+
+        this.numerator += " ) ) ";
+      }
+
+      if (i != this.paths.length - 1) this.numerator += " + ";
     }
 
   }
