@@ -45,7 +45,13 @@ export class FinalExpression {
     while (true) {
       let array = nonTouching.getNonTouching(i);
       if (array.length == 0) break;
-      this.denominator += " + " + Math.pow(-1, i) + this.calcNonTouchingGain(array).toString();
+
+      if (i != 2) this.denominator += " + ";
+      if (Math.pow(-1, i) == -1)
+        this.denominator += "- " + this.calcNonTouchingGain(array).toString();
+      else
+        this.denominator += this.calcNonTouchingGain(array).toString();
+
       i++;
     }
   }
