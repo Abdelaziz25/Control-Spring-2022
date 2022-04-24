@@ -15,6 +15,8 @@ import {Convert} from "./Utilities/Convert";
 import {TextBuilder} from "./Elements/ElementBuilder/TextBuilder";
 import {ForwardPath} from './Operations/ForwardPath';
 import {CyclePath} from './Operations/CyclePath';
+import {LoopsNonTouching} from "./Operations/LoopsNonTouching";
+import {FinalExpression} from "./Operations/FinalExpression";
 
 
 @Component({
@@ -243,17 +245,29 @@ export class SignalFlowGraphComponent implements OnInit {
     let forwardPath = new ForwardPath(ob.convert(this.connectors));
     let cyclePath = new CyclePath(ob.convert(this.connectors));
     console.log(ob.convert(this.connectors));
-    console.log("Forward paths");
-    console.log(forwardPath.getAllFrwdPaths('in', 'out'));
-    console.log("Forward paths gain");
-    console.log(forwardPath.getAllFrwdPathsGain());
-    console.log("Cycles");
-    console.log(cyclePath.getAllCyclePaths());
-    console.log("Cycles paths gain");
-    console.log(cyclePath.getAllCyclePathsGain());
-    this.result = "Forward pathsForward pathsForward pathsForward pathsForward paths\n";
-    this.result = this.result.repeat(10);
-    console.log(this.result);
+
+    // console.log("Forward paths");
+    // console.log(forwardPath.getAllFrwdPaths('in', 'out'));
+    //
+    // console.log("Forward paths gain");
+    // console.log(forwardPath.getAllFrwdPathsGain());
+    //
+    // console.log("Cycles");
+    // console.log(cyclePath.getAllCyclePaths());
+    //
+    // console.log("Cycles paths gain");
+    // console.log(cyclePath.getAllCyclePathsGain());
+
+    let expression = new FinalExpression(forwardPath.getAllFrwdPaths('in', 'out') ,
+      forwardPath.getAllFrwdPathsGain() ,
+      cyclePath.getAllCyclePaths() ,
+      cyclePath.getAllCyclePathsGain()) ;
+
+    console.log(expression.denominator) ;
+
+    // this.result = "Forward pathsForward pathsForward pathsForward pathsForward paths\n";
+    // this.result = this.result.repeat(10);
+    // console.log(this.result);
   }
 
   calc() {

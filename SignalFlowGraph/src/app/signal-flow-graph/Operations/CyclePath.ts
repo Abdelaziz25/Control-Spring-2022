@@ -10,11 +10,11 @@ export class CyclePath{
         this.adjacencyList=adjacencyList;
         this.cyclesList=[];
         this.gainsList=[];
-        
+
     }
     getAllCyclePaths():String[][]{
         this.adjacencyList.forEach((value:Node[]|undefined,key :string)=>{
-            
+
             var neighbourList =value as Node[];
             for(var i=0;i<neighbourList.length;i++){
                 if(key===neighbourList[i].name){ //self loop
@@ -50,11 +50,10 @@ export class CyclePath{
             this.adjacencyList.delete(key); //remove this key so we don't get same cycle multiple times
 
         });
-        
+
         return this.cyclesList;
     }
     getAllCyclePathsGain(){
         return this.gainsList;
     }
-
 }

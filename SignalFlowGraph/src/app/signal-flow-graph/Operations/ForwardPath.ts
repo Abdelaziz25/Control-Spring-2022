@@ -8,7 +8,7 @@ export class ForwardPath{
         this.pathsList=[];
         this.gainsList=[];
     }
-    
+
     getAllFrwdPaths(source : string ,Destination : string):String[][]{
         var visited=new Map<string,Boolean|undefined>();
         this.adjacencyList.forEach((value:Node[]|undefined,key :string)=>{
@@ -50,5 +50,4 @@ export class ForwardPath{
 
         visited.set(vertex,false);
     }
-
 }
