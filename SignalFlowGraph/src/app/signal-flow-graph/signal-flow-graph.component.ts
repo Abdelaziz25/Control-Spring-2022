@@ -17,7 +17,7 @@ import {ForwardPath} from './Operations/ForwardPath';
 import {CyclePath} from './Operations/CyclePath';
 import {LoopsNonTouching} from "./Operations/LoopsNonTouching";
 import {FinalExpression} from "./Operations/FinalExpression";
-import { PathsNonTouching } from './Operations/PathsNonTouching';
+import {PathsNonTouching} from './Operations/PathsNonTouching';
 
 
 @Component({
@@ -298,67 +298,52 @@ export class SignalFlowGraphComponent implements OnInit {
       });
       this.result += "\n";
     });
-    let nontouching = new LoopsNonTouching(cyclePaths);
+    let nonTouching = new LoopsNonTouching(cyclePaths);
     let t = 2;
-    let j2=0;
+    let j2 = 0;
     this.result += "Touching Loops :\n";
     while (true) {
-      let array3 = nontouching.getNonTouching(t);
-      if (array3.length == 0)
-      {
-        this.result += "\tNo touching "+t+" Loops\n";
-        console.log(array3);
+      let array3 = nonTouching.getNonTouching(t);
+      if (array3.length == 0) {
+        this.result += "\tNo touching " + t + " Loops\n";
         break;
-      } 
-     else
-     {
-      this.result += "\tTouching "+t+" Loops\n";
-      for(let y=0;y<array3.length;y++)
-      {
-        for(j2=0;j2<array3[y].length;j2++)
-        {
-         
-          if(j2!=array3[y].length-1)
-          {
-            this.result+="\tL"+array3[y][j2]+",";
-          }
-          else
-          {
-            this.result+="\tL"+array3[y][j2]+"\n";
+      } else {
+        this.result += "\tTouching " + t + " Loops\n";
+        for (let y = 0; y < array3.length; y++) {
+          for (j2 = 0; j2 < array3[y].length; j2++) {
+
+            if (j2 != array3[y].length - 1) {
+              this.result += "\tL" + array3[y][j2] + ",";
+            } else {
+              this.result += "\tL" + array3[y][j2] + "\n";
+            }
           }
         }
       }
-      console.log(array3);
-     }
       t++;
     }
     let expression = new FinalExpression(forwardPaths, forwardPathsGain, cyclePaths, cyclePathsGain);
-    let pathsnontouching = new PathsNonTouching(forwardPaths,cyclePaths);
+    let pathsNonTouching = new PathsNonTouching(forwardPaths, cyclePaths);
     let array: number[][];
-    array=pathsnontouching.getNonTouching();
+    array = pathsNonTouching.getNonTouching();
     this.result += "\u0394 :\n";
-    this.result+=expression.denominator +"\n";
+    this.result += expression.denominator + "\n";
     console.log(array);
-    let j:number;
-    for(let i=0;i<array.length;i++)
-    {
-          if(array[i].length==0)
-          {
-            j=i+1;
-            this.result += "\u0394 "+ j+":\n";
-            this.result+= 1+"\n";
-          }else
-          {
-            j=i+1;
-            this.result += "\u0394 "+ j+":\n";
-            this.result+=array[i]+"\n";
-          }
+    let j: number;
+    for (let i = 0; i < array.length; i++) {
+      if (array[i].length == 0) {
+        j = i + 1;
+        this.result += "\u0394 " + j + ":\n";
+        this.result += 1 + "\n";
+      } else {
+        j = i + 1;
+        this.result += "\u0394 " + j + ":\n";
+        this.result += array[i] + "\n";
+      }
     }
-    console.log(expression.denominator);
     this.result += "Overall Transfer Function :\n";
-      this.result += "("+ expression.numerator+")";
-     this.result+= "/"+expression.denominator;
-    console.log(expression.numerator);
+    this.result += "(" + expression.numerator + ")";
+    this.result += "/" + expression.denominator;
   }
 
   calc() {

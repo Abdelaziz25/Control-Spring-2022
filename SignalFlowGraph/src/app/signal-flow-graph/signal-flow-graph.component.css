@@ -1,6 +1,11 @@
 /* width */
 ::-webkit-scrollbar {
   width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-corner {
+  background: rgba(136, 136, 136, 0);
 }
 
 /* Track */
@@ -79,25 +84,17 @@ a:hover {
 .control-box {
   position: relative;
   display: inline-block;
-  width: 33.66%;
+  width: 20%;
   margin-right: 1.33%;
   height: 120px;
 }
 
-.control-box.palette {
-  width: 36%;
-}
-
-.control-box.brush {
-  width: 15.33%;
-}
-
 .control-box.settings {
-  width: 15.33%;
+  width: 10%;
 }
 
 .control-box.result {
-  width: 44.33%;
+  width: 66%;
 }
 
 .control-header {
@@ -105,7 +102,7 @@ a:hover {
   position: relative;
   font-size: 12px;
   width: 100%;
-  margin: 5px 0 0 5px;
+  margin: 5px 0 0 0;
   color: #eeeeee;
   text-transform: uppercase;
   font-family: "Lato", sans-serif;
@@ -129,6 +126,15 @@ a:hover {
   top: 20px;
   overflow-y: scroll;
   overflow-x: hidden;
+}
+
+.control-inner3 {
+  position: absolute;
+  height: 150px;
+  width: 100%;
+  margin-top: 10px;
+  top: 20px;
+  overflow: scroll;
 }
 
 #paint {
