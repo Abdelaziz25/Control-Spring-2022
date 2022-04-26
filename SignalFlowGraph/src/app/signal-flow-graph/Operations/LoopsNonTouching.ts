@@ -11,11 +11,9 @@ export class LoopsNonTouching {
     this.nonTouching = [];
     let nodeMap = new Map<String, number>();
     let loops: number[] = [];
-
     for (let i = 0; i < this.loops.length; i++) {
       this.getPartial(i, count, loops, nodeMap);
     }
-
     return this.nonTouching;
   }
 

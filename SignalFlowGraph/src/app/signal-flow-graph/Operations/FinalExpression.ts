@@ -59,7 +59,8 @@ export class FinalExpression {
   private makeNumerator() {
     let nonTouching = new PathsNonTouching(this.paths, this.loops);
     let array = nonTouching.getNonTouching();
-
+     
+     console.log(array);
     for (let i = 0; i < this.paths.length; i++) {
       this.pathsGainsVals.push(this.makeGain(this.frwdGains[i]));
       this.numerator += this.pathsGainsVals[i].makeString();
