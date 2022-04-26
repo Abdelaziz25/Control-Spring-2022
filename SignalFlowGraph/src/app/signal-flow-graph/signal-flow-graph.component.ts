@@ -246,32 +246,40 @@ export class SignalFlowGraphComponent implements OnInit {
     let cyclePath = new CyclePath(ob.convert(this.connectors));
     console.log(ob.convert(this.connectors));
 
-    // console.log("Forward paths");
-    // console.log(forwardPath.getAllFrwdPaths('in', 'out'));
-    //
-    // console.log("Forward paths gain");
-    // console.log(forwardPath.getAllFrwdPathsGain());
-    //
-    // console.log("Cycles");
-    // console.log(cyclePath.getAllCyclePaths());
-    //
-    // console.log("Cycles paths gain");
-    // console.log(cyclePath.getAllCyclePathsGain());
+    let forwardPaths = forwardPath.getAllFrwdPaths('in', 'out');
+    let forwardPathsGain = forwardPath.getAllFrwdPathsGain();
+    let cyclePaths = cyclePath.getAllCyclePaths();
+    let cyclePathsGain = cyclePath.getAllCyclePathsGain();
 
-    let expression = new FinalExpression(forwardPath.getAllFrwdPaths('in', 'out') ,
-      forwardPath.getAllFrwdPathsGain() ,
-      cyclePath.getAllCyclePaths() ,
-      cyclePath.getAllCyclePathsGain()) ;
+    this.result += "Forward paths\n";
+    let i = 1;
+    forwardPaths.forEach((forwardPath) => {
+      this.result += "P" + i++ + ": ";
+      forwardPath.forEach((node) => {
+        this.result += node;
+        if (forwardPath[forwardPath.length - 1] != node)
+          this.result += " --> ";
+      });
+      this.result += "\n";
+    });
 
-    console.log(expression.denominator) ;
-    console.log(expression.numerator) ;
+    console.log("Forward paths gain");
+    console.log(forwardPathsGain);
 
-    // this.result = "Forward pathsForward pathsForward pathsForward pathsForward paths\n";
-    // this.result = this.result.repeat(10);
-    // console.log(this.result);
+    console.log("Cycles");
+    console.log(cyclePaths);
+
+    console.log("Cycles paths gain");
+    console.log(cyclePathsGain);
+
+    let expression = new FinalExpression(forwardPaths, forwardPathsGain, cyclePaths, cyclePathsGain);
+
+    console.log(expression.denominator);
+    console.log(expression.numerator);
   }
 
   calc() {
+    this.result = "";
     this.convert();
   }
 }
