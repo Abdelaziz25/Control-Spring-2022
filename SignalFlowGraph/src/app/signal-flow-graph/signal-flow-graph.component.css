@@ -101,6 +101,7 @@ a:hover {
 }
 
 .control-header {
+  white-space: pre;
   position: relative;
   font-size: 12px;
   width: 100%;

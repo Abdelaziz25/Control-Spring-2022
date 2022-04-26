@@ -254,7 +254,7 @@ export class SignalFlowGraphComponent implements OnInit {
     this.result += "Forward paths\n";
     let i = 1;
     forwardPaths.forEach((forwardPath) => {
-      this.result += "P" + i++ + ": ";
+      this.result += "\tP" + i++ + ": ";
       forwardPath.forEach((node) => {
         this.result += node;
         if (forwardPath[forwardPath.length - 1] != node)
@@ -262,15 +262,41 @@ export class SignalFlowGraphComponent implements OnInit {
       });
       this.result += "\n";
     });
+    console.log(this.result);
 
-    console.log("Forward paths gain");
-    console.log(forwardPathsGain);
+    this.result += "Forward paths gain\n";
 
-    console.log("Cycles");
-    console.log(cyclePaths);
+    i = 1;
+    forwardPathsGain.forEach((forwardPathGain) => {
+      this.result += "\tP" + i++ + " Gain: ";
+      forwardPathGain.forEach((gain) => {
+        this.result += gain;
+      });
+      this.result += "\n";
+    });
 
-    console.log("Cycles paths gain");
-    console.log(cyclePathsGain);
+    this.result += "Cycles\n";
+    i = 1;
+    cyclePaths.forEach((cyclePath) => {
+      this.result += "\t\u0394" + i++ + ": ";
+      cyclePath.forEach((node, idx) => {
+        this.result += node;
+        if (cyclePath.length - 1 != idx)
+          this.result += " --> ";
+      });
+      this.result += "\n";
+    });
+
+    this.result += "Cycles gain\n";
+
+    i = 1;
+    cyclePathsGain.forEach((cyclePathGain) => {
+      this.result += "\t\u0394" + i++ + " Gain: ";
+      cyclePathGain.forEach((gain) => {
+        this.result += gain;
+      });
+      this.result += "\n";
+    });
 
     let expression = new FinalExpression(forwardPaths, forwardPathsGain, cyclePaths, cyclePathsGain);
 
