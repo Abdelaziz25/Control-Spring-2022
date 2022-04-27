@@ -301,6 +301,7 @@ export class SignalFlowGraphComponent implements OnInit {
     let nonTouching = new LoopsNonTouching(cyclePaths);
     let t = 2;
     let j2 = 0;
+    let o:any;
     this.result += "Touching Loops :\n";
     while (true) {
       let array3 = nonTouching.getNonTouching(t);
@@ -313,9 +314,11 @@ export class SignalFlowGraphComponent implements OnInit {
           for (j2 = 0; j2 < array3[y].length; j2++) {
 
             if (j2 != array3[y].length - 1) {
-              this.result += "\tL" + array3[y][j2] + ",";
+              o=array3[y][j2]+1;
+              this.result += "\tL" + o + ",";
             } else {
-              this.result += "\tL" + array3[y][j2] + "\n";
+              o=array3[y][j2]+1;
+              this.result += "\tL" + o + "\n";
             }
           }
         }
@@ -330,6 +333,7 @@ export class SignalFlowGraphComponent implements OnInit {
     this.result += expression.denominator + "\n";
     console.log(array);
     let j: number;
+    let o2:any;
     for (let i = 0; i < array.length; i++) {
       if (array[i].length == 0) {
         j = i + 1;
@@ -338,7 +342,18 @@ export class SignalFlowGraphComponent implements OnInit {
       } else {
         j = i + 1;
         this.result += "\u0394 " + j + ":\n";
-        this.result += array[i] + "\n";
+        this.result += 1 + " - (";
+          for (let j2 = 0; j2 < array[i].length; j2++) {
+              
+            if (j2 != array[i].length - 1) {
+              o2=array[i][j2]+1;
+              this.result += "\tL" + o2 + " +";
+            } else {
+              o2=array[i][j2]+1;
+              console.log("lol");
+              this.result += "\tL" + o2 + ") \n";
+            }
+          }
       }
     }
     this.result += "Overall Transfer Function :\n";
