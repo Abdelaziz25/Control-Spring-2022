@@ -358,7 +358,7 @@ export class SignalFlowGraphComponent implements OnInit {
     }
     this.result += "Overall Transfer Function :\n";
     this.result += "(" + expression.numerator + ")";
-    this.result += "/" + expression.denominator;
+    this.result += " / " + expression.denominator;
   }
 
   calc() {
