@@ -33,11 +33,13 @@ export class FinalExpression {
 
     for (let i = 0; i < this.loopsGains.length; i++) {
       this.loopsGainsVals.push(this.makeGain(this.loopsGains[i]));
-      this.denominator += this.loopsGainsVals[i].makeString();
+      const loopGain=this.loopsGainsVals[i].makeString();
+      this.denominator += loopGain;
 
-      if (i != this.loopsGains.length - 1)
+      if (i !== this.loopsGains.length - 1 && loopGain.length>0)
         this.denominator += " + ";
-      else this.denominator += " )";
+      else if(i === this.loopsGains.length-1)
+        this.denominator += " )";
     }
 
     let nonTouching = new LoopsNonTouching(this.loops);
@@ -45,13 +47,14 @@ export class FinalExpression {
     while (true) {
       let array = nonTouching.getNonTouching(i);
       if (array.length == 0) break;
-
-      if (i != 2) this.denominator += " + ";
-      if (Math.pow(-1, i) == -1)
-        this.denominator += "- " + this.calcNonTouchingGain(array).toString();
-      else
-        this.denominator += this.calcNonTouchingGain(array).toString();
-
+      
+      if(this.calcNonTouchingGain(array).toString.length>0){
+        if (i !== 2) this.denominator += " + ";
+        if (Math.pow(-1, i) == -1)
+          this.denominator += "- " + this.calcNonTouchingGain(array).toString();
+        else
+          this.denominator += this.calcNonTouchingGain(array).toString();
+      }
       i++;
     }
   }
