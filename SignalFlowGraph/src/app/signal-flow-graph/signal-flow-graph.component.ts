@@ -90,8 +90,8 @@ export class SignalFlowGraphComponent implements OnInit {
   }
 
   loadLayout() {
-    this.buildMachine("in", window.screenLeft + 100, 400);
-    this.buildMachine("out", window.screen.availWidth - 100, 400);
+    this.buildMachine("in", window.screenLeft + 100, window.screen.height / 2 - 150);
+    this.buildMachine("out", window.screen.availWidth - 100, window.screen.height / 2 - 150);
   }
 
   generateTargets(shape: Konva.Group, ID: number, targets: Map<string, any>) {
