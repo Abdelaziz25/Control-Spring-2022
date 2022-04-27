@@ -366,10 +366,10 @@ export class SignalFlowGraphComponent implements OnInit {
 
     const math = create(all);
     console.log(numerator.toString() + " / (" + denominator.toString() + ")");
-    console.log(math.simplify(math.parse(numerator.toString() + " / (" + denominator.toString() + ")")).toString())
+    console.log( math.simplify(math.parse("(" +numerator.toString() +") " + " / (" + denominator.toString() + ")")).toString());
 
     this.result += "Overall Transfer Function :\n";
-    this.result += math.simplify(math.parse(numerator.toString() + " / (" + denominator.toString() + ")")).toString();
+    this.result += math.simplify(math.parse("(" +numerator.toString() +") " + " / (" + denominator.toString() + ")")).toString();
   }
 
   calc() {
