@@ -30,19 +30,19 @@ export class FinalExpression {
 
   private makeDenominator() {
     this.denominator += "1"
-    if(this.loopsGains.length == 0)
+    if (this.loopsGains.length == 0)
       return;
-    
+
     this.denominator += " - ("
 
     for (let i = 0; i < this.loopsGains.length; i++) {
       this.loopsGainsVals.push(this.makeGain(this.loopsGains[i]));
-      const loopGain=this.loopsGainsVals[i].makeString();
+      const loopGain = this.loopsGainsVals[i].makeString();
       this.denominator += loopGain;
 
-      if (i !== this.loopsGains.length - 1 && loopGain.length>0)
+      if (i !== this.loopsGains.length - 1 && loopGain.length > 0)
         this.denominator += " + ";
-      else if(i === this.loopsGains.length-1)
+      else if (i === this.loopsGains.length - 1)
         this.denominator += " )";
     }
 
@@ -51,9 +51,9 @@ export class FinalExpression {
     while (true) {
       let array = nonTouching.getNonTouching(i);
       if (array.length == 0) break;
-      
+
       this.denominator += " + ";
-      if(this.calcNonTouchingGain(array).toString().length>0){
+      if (this.calcNonTouchingGain(array).toString().length > 0) {
         if (Math.pow(-1, i) == -1)
           this.denominator += "- " + this.calcNonTouchingGain(array).toString();
         else
@@ -66,8 +66,8 @@ export class FinalExpression {
   private makeNumerator() {
     let nonTouching = new PathsNonTouching(this.paths, this.loops);
     let array = nonTouching.getNonTouching();
-     
-     console.log(array);
+
+    console.log(array);
     for (let i = 0; i < this.paths.length; i++) {
       this.pathsGainsVals.push(this.makeGain(this.frwdGains[i]));
       this.numerator += this.pathsGainsVals[i].makeString();
@@ -96,7 +96,7 @@ export class FinalExpression {
         Builder.num *= this.loopsGainsVals[array[i][j]].num;
         Builder.str += this.loopsGainsVals[array[i][j]].str.toString();
       }
-      if(i !== 0)
+      if (i !== 0)
         result += " + "
       result += Builder.makeString();
       if (i == array.length - 1) result += " ) ";
