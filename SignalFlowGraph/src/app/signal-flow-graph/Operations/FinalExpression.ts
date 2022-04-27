@@ -113,7 +113,7 @@ export class FinalExpression {
         let char = gain[i];
         if (char.charAt(0) == '-') {
           Builder.num *= -1;
-          Builder.str += char.slice(1, char.length - 1);
+          Builder.str += char.slice(1, char.length);
         } else {
           Builder.str += char.toString();
         }
