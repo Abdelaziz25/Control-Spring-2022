@@ -18,6 +18,11 @@ import {CyclePath} from './Operations/CyclePath';
 import {LoopsNonTouching} from "./Operations/LoopsNonTouching";
 import {FinalExpression} from "./Operations/FinalExpression";
 import {PathsNonTouching} from './Operations/PathsNonTouching';
+import * as math from "mathjs"
+import {
+  create,
+  all
+} from 'mathjs';
 
 
 @Component({
@@ -301,7 +306,7 @@ export class SignalFlowGraphComponent implements OnInit {
     let nonTouching = new LoopsNonTouching(cyclePaths);
     let t = 2;
     let j2 = 0;
-    let o:any;
+    let o: any;
     this.result += "Touching Loops :\n";
     while (true) {
       let array3 = nonTouching.getNonTouching(t);
@@ -314,10 +319,10 @@ export class SignalFlowGraphComponent implements OnInit {
           for (j2 = 0; j2 < array3[y].length; j2++) {
 
             if (j2 != array3[y].length - 1) {
-              o=array3[y][j2]+1;
+              o = array3[y][j2] + 1;
               this.result += "\tL" + o + ",";
             } else {
-              o=array3[y][j2]+1;
+              o = array3[y][j2] + 1;
               this.result += "\tL" + o + "\n";
             }
           }
@@ -333,7 +338,7 @@ export class SignalFlowGraphComponent implements OnInit {
     this.result += expression.denominator + "\n";
     console.log(array);
     let j: number;
-    let o2:any;
+    let o2: any;
     for (let i = 0; i < array.length; i++) {
       if (array[i].length == 0) {
         j = i + 1;
@@ -343,22 +348,28 @@ export class SignalFlowGraphComponent implements OnInit {
         j = i + 1;
         this.result += "\u0394 " + j + ":\n";
         this.result += 1 + " - (";
-          for (let j2 = 0; j2 < array[i].length; j2++) {
-              
-            if (j2 != array[i].length - 1) {
-              o2=array[i][j2]+1;
-              this.result += "\tL" + o2 + " +";
-            } else {
-              o2=array[i][j2]+1;
-              console.log("lol");
-              this.result += "\tL" + o2 + ") \n";
-            }
+        for (let j2 = 0; j2 < array[i].length; j2++) {
+
+          if (j2 != array[i].length - 1) {
+            o2 = array[i][j2] + 1;
+            this.result += "\tL" + o2 + " +";
+          } else {
+            o2 = array[i][j2] + 1;
+            console.log("lol");
+            this.result += "\tL" + o2 + ") \n";
           }
+        }
       }
     }
+
+    let numerator = expression.numerator, denominator = expression.denominator;
+
+    const math = create(all);
+    console.log(numerator.toString() + " / (" + denominator.toString() + ")");
+    console.log(math.simplify(math.parse(numerator.toString() + " / (" + denominator.toString() + ")")).toString())
+
     this.result += "Overall Transfer Function :\n";
-    this.result += "(" + expression.numerator + ")";
-    this.result += " / " + expression.denominator;
+    this.result += math.simplify(math.parse(numerator.toString() + " / (" + denominator.toString() + ")")).toString();
   }
 
   calc() {
