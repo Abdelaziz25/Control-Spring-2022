@@ -30,8 +30,10 @@ export class FinalExpression {
 
   private makeDenominator() {
     this.denominator += "1"
-    if(this.loopsGains.length >0)
-      this.denominator+=" - ( "
+    if(this.loopsGains.length == 0)
+      return;
+    
+    this.denominator += " - ("
 
     for (let i = 0; i < this.loopsGains.length; i++) {
       this.loopsGainsVals.push(this.makeGain(this.loopsGains[i]));
@@ -50,8 +52,8 @@ export class FinalExpression {
       let array = nonTouching.getNonTouching(i);
       if (array.length == 0) break;
       
-      if(this.calcNonTouchingGain(array).toString.length>0){
-        if (i !== 2) this.denominator += " + ";
+      this.denominator += " + ";
+      if(this.calcNonTouchingGain(array).toString().length>0){
         if (Math.pow(-1, i) == -1)
           this.denominator += "- " + this.calcNonTouchingGain(array).toString();
         else
@@ -94,8 +96,9 @@ export class FinalExpression {
         Builder.num *= this.loopsGainsVals[array[i][j]].num;
         Builder.str += this.loopsGainsVals[array[i][j]].str.toString();
       }
-
-      result += " + " + Builder.makeString();
+      if(i !== 0)
+        result += " + "
+      result += Builder.makeString();
       if (i == array.length - 1) result += " ) ";
     }
 
