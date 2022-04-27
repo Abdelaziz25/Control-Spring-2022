@@ -32,7 +32,7 @@ export class FinalExpression {
     this.denominator += "1"
     if(this.loopsGains.length == 0)
       return;
-    
+
     this.denominator += " - ("
 
     for (let i = 0; i < this.loopsGains.length; i++) {
@@ -51,7 +51,7 @@ export class FinalExpression {
     while (true) {
       let array = nonTouching.getNonTouching(i);
       if (array.length == 0) break;
-      
+
       this.denominator += " + ";
       if(this.calcNonTouchingGain(array).toString().length>0){
         if (Math.pow(-1, i) == -1)
@@ -66,8 +66,7 @@ export class FinalExpression {
   private makeNumerator() {
     let nonTouching = new PathsNonTouching(this.paths, this.loops);
     let array = nonTouching.getNonTouching();
-     
-     console.log(array);
+
     for (let i = 0; i < this.paths.length; i++) {
       this.pathsGainsVals.push(this.makeGain(this.frwdGains[i]));
       this.numerator += this.pathsGainsVals[i].makeString();

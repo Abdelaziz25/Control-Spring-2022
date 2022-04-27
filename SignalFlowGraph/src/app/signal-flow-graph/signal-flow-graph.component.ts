@@ -180,7 +180,6 @@ export class SignalFlowGraphComponent implements OnInit {
 
   buildMachine(name: string = "", x: number = 0, y: number = 0) {
     let IDsString = this.machines.keys();
-    console.log(this.machines);
     let IDs = [];
 
     for (let string of IDsString) {
@@ -190,7 +189,6 @@ export class SignalFlowGraphComponent implements OnInit {
     }
     if (IDs.length != 0) this.machineID = Math.max(...IDs);
     if (!this.machineID) this.machineID = 0;
-    console.log(this.machineID);
 
     let machine;
     if (name == "") {
@@ -250,7 +248,6 @@ export class SignalFlowGraphComponent implements OnInit {
     let ob = new Convert();
     let forwardPath = new ForwardPath(ob.convert(this.connectors));
     let cyclePath = new CyclePath(ob.convert(this.connectors));
-    console.log(ob.convert(this.connectors));
 
     let forwardPaths = forwardPath.getAllFrwdPaths('in', 'out');
     let forwardPathsGain = forwardPath.getAllFrwdPathsGain();
@@ -268,7 +265,6 @@ export class SignalFlowGraphComponent implements OnInit {
       });
       this.result += "\n";
     });
-    console.log(this.result);
 
     this.result += "Forward paths gain\n";
 
@@ -336,7 +332,6 @@ export class SignalFlowGraphComponent implements OnInit {
     array = pathsNonTouching.getNonTouching();
     this.result += "\u0394 :\n";
     this.result += expression.denominator + "\n";
-    console.log(array);
     let j: number;
     let o2: any;
     for (let i = 0; i < array.length; i++) {
@@ -355,7 +350,6 @@ export class SignalFlowGraphComponent implements OnInit {
             this.result += "\tL" + o2 + " +";
           } else {
             o2 = array[i][j2] + 1;
-            console.log("lol");
             this.result += "\tL" + o2 + ") \n";
           }
         }
@@ -365,8 +359,6 @@ export class SignalFlowGraphComponent implements OnInit {
     let numerator = expression.numerator, denominator = expression.denominator;
 
     const math = create(all);
-    console.log(numerator.toString() + " / (" + denominator.toString() + ")");
-    console.log( math.simplify(math.parse("(" +numerator.toString() +") " + " / (" + denominator.toString() + ")")).toString());
 
     this.result += "Overall Transfer Function :\n";
     this.result += math.simplify(math.parse("(" +numerator.toString() +") " + " / (" + denominator.toString() + ")")).toString();
