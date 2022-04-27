@@ -329,7 +329,7 @@ export class SignalFlowGraphComponent implements OnInit {
     let pathsNonTouching = new PathsNonTouching(forwardPaths, cyclePaths);
     let array: number[][];
     array = pathsNonTouching.getNonTouching();
-    this.result += "\u0394:\n";
+    this.result += "\u0394 :\n";
     this.result += expression.denominator + "\n";
     console.log(array);
     let j: number;
