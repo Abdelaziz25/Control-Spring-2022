@@ -2,7 +2,8 @@ import {Component, HostListener, OnInit} from '@angular/core';
 import {
   faPlay,
   faCogs,
-  faLink
+  faLink,
+  faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import Konva from "konva";
 import {NodeBuilder} from './Elements/ElementBuilder/NodeBuilder';
@@ -42,6 +43,7 @@ export class SignalFlowGraphComponent implements OnInit {
   faPlay = faPlay;
   faLink = faLink;
   faCogs = faCogs;
+  faTrash = faTrash;
 
   stage!: Konva.Stage;
   layer!: Konva.Layer;
